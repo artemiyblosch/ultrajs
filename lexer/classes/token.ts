@@ -26,5 +26,4 @@ class TokenRule {
         return new Token(this.tokenType, match);
     }
 }
-exports.Token = Token;
-exports.TokenRule = TokenRule;
+export { Token, TokenRule };

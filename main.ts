@@ -18,5 +18,5 @@ else code = "\n"
 if (code.at(-1) != "\n") code = code + "\n"
 
 let lexer = new lex.Lexer(tr.tokenRules);
-console.debug(lexer.parse(code,0).returned);
+console.debug(lexer.parse(code,0));
 // npx tsx main.ts ...

@@ -1,20 +1,20 @@
-var tkn = require("../classes/token.ts");
+import { Token, TokenRule } from '../classes/token.ts'
 
 interface TokenedCode {
-    returned : Array<tkn.Token>;
+    returned : Array<Token>;
     pos : number
 }
 
 class Lexer {
-    tokenRules : tkn.TokenRule[];
+    tokenRules : TokenRule[];
 
-    constructor(tokenRules : tkn.TokenRule[]) {
+    constructor(tokenRules : TokenRule[]) {
         this.tokenRules = tokenRules;
     }
 
     parse(code : string, posit : number) : TokenedCode {
         let pos : number = posit || 0;
-        let ret : Array<tkn.Token> = [];
+        let ret : Array<Token> = [];
         let match : Token | null;
 
         main: while (pos < code.length) {

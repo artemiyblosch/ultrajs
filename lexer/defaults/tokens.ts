@@ -1,13 +1,14 @@
-var tkn = require("../classes/token.ts")
+import { TokenRule } from "../classes/token"
+
 let tokenrules = [
-    new tkn.TokenRule(/\d+/y, "num"),
-    new tkn.TokenRule(/;+/y, "nline"),
-    new tkn.TokenRule(/\(/y, "brOpen"),
-    new tkn.TokenRule(/\)/y, "brClose"),
-    new tkn.TokenRule(/\{.*\}/y, "block"),
-    new tkn.TokenRule(/\n+/y, "end"),
-    new tkn.TokenRule(/\s+/y, "space"),
-    new tkn.TokenRule(/\S+/y, "literal"),
+    new TokenRule(/\d+/y, "num"),
+    new TokenRule(/;+/y, "nline"),
+    new TokenRule(/\(/y, "brOpen"),
+    new TokenRule(/\)/y, "brClose"),
+    new TokenRule(/\{.*\}/y, "block"),
+    new TokenRule(/\n+/y, "end"),
+    new TokenRule(/\s+/y, "space"),
+    new TokenRule(/\S+/y, "literal"),
 ]
 
 exports.tokenRules = tokenrules
