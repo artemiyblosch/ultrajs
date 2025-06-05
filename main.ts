@@ -1,5 +1,8 @@
-var lex = require("./lexer/lib/lexer.ts");
-var tr = require("./lexer/defaults/tokens.ts");
+import { BNFrules } from './defaults/BNFRules.ts';
+import { mem } from './defaults/mem.ts';
+import { tokenrules } from './defaults/tokens.ts';
+import { Lexer } from './lexer/lib/lexer.ts'
+import { Parser } from './parser/lib/parser.ts';
 
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -17,6 +20,10 @@ else code = "\n"
 
 if (code.at(-1) != "\n") code = code + "\n"
 
-let lexer = new lex.Lexer(tr.tokenRules);
-console.debug(lexer.parse(code,0).returned);
+let lexer = new Lexer(tokenrules);
+const tokens = lexer.parse(code,0);
+
+let parser = new Parser(BNFrules);
+const ast = parser.parse(tokens.returned, mem)
+console.debug(ast);
 // npx tsx main.ts ...

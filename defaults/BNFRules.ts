@@ -3,7 +3,7 @@ import { BNFRule } from "../parser/helping-types/BNFRule";
 import { numberRegex, opRegex } from "./BNFRegex";
 import { mem } from "./mem";
 
-const rules : BNFRule[] = [
+const BNFrules : BNFRule[] = [
     new BNFRule(
         numberRegex,
         (match) => {return {expr: [new ASTNode([parseInt(match[0].type)],"num")], pref: 0}}
@@ -21,4 +21,4 @@ const rules : BNFRule[] = [
     )
 ]
 
-export {rules};
+export {BNFrules};

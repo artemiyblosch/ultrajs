@@ -1,7 +1,7 @@
 import { ExprContents, Mem } from "../helping-types/BNFRegex";
 import { BNFRule, Match } from "../helping-types/BNFRule";
 
-class Parser {
+export class Parser {
     BNFRules : BNFRule[];
     constructor(BNFRules : BNFRule[]) {
         this.BNFRules = BNFRules;

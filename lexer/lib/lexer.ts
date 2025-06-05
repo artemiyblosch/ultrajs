@@ -5,7 +5,7 @@ interface TokenedCode {
     pos : number
 }
 
-class Lexer {
+export class Lexer {
     tokenRules : TokenRule[];
 
     constructor(tokenRules : TokenRule[]) {
@@ -34,4 +34,3 @@ class Lexer {
         return {returned: ret, pos};
     }
 }
-exports.Lexer = Lexer;

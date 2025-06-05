@@ -1,6 +1,6 @@
 import { TokenRule } from "../lexer/classes/token"
 
-let tokenrules = [
+export let tokenrules = [
     new TokenRule(/\d+/y, "num"),
     new TokenRule(/;+/y, "nline"),
     new TokenRule(/\(/y, "brOpen"),
@@ -11,5 +11,3 @@ let tokenrules = [
     new TokenRule(/\w[\w\d]*/y, "literal"),
     new TokenRule(/[^\w\d]+/y, "op"),
 ]
-
-exports.tokenRules = tokenrules
