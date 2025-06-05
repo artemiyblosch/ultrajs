@@ -2,7 +2,7 @@ import { Token } from '../../lexer/classes/token'
 import { ASTNode } from './ASTNode';
 
 export type ExprContents = Token | ASTNode;
-type Mem = Map<string, any>;
+export type Mem = Map<string, any>;
 interface BNFPiece<T> {
     match : (arr : Array<T>, pos : number, mem : Mem) => null | Array<T>;
 }
@@ -44,7 +44,6 @@ export class BNFRegex<T> {
         return match;
     }
 }
-export type BNFRule = (arr : ExprContents[], pos : number, mem : Mem) => null | ExprContents[];
 
 export class Predicate<T> {
     pred : (p : T) => boolean;
