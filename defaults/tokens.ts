@@ -1,4 +1,4 @@
-import { TokenRule } from "../classes/token"
+import { TokenRule } from "../lexer/classes/token"
 
 let tokenrules = [
     new TokenRule(/\d+/y, "num"),
