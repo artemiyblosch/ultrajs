@@ -10,16 +10,17 @@ export class Parser {
     parse(expr : ExprContents[], mem : Mem) : ExprContents[] {
         let rexpr = expr;
         let matches : Match[] = [];
-        let rule : BNFRule;
-        let done : boolean = true;
+        let done : boolean = false;
 
         do {
             done = true;
-            for(let i in mem) {
-                rule = mem.get(i);
+            for(let rule of this.BNFRules) {
                 matches = rule.getAllMatches(expr, mem);
 
-                if(matches.length < 1) continue;
+                if(matches.length < 1) {
+                    console.debug("skipped");
+                    continue;
+                };
 
                 done = false;
                 matches.sort((a,b) => a.pref - b.pref);
