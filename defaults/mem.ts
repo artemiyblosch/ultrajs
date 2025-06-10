@@ -1,4 +1,3 @@
-import { Token } from "../lexer/classes/token";
 import { Mem } from "../parser/helping-types/BNFRegex"
 import { bnfRules } from "./bnfRules";
 var mem : Mem = new Map();

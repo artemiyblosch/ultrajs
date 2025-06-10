@@ -1,5 +1,5 @@
-import { bnfRules } from './defaults/bnfRules.ts';
 import { mem } from './defaults/mem.ts';
+import { bnfRules } from './defaults/bnfRules.ts';
 import { tokenrules } from './defaults/tokens.ts';
 import { Lexer } from './lexer/lib/lexer.ts'
 import { Parser } from './parser/lib/parser.ts';
@@ -24,6 +24,6 @@ let lexer = new Lexer(tokenrules);
 const tokens = lexer.parse(code,0);
 
 let parser = new Parser(bnfRules);
-const ast = parser.parse(tokens.returned, mem)
+const ast = parser.parse(tokens.returned, mem);
 console.debug(ast);
 // npx tsx main.ts ...
