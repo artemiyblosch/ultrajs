@@ -7,7 +7,7 @@ type ExprPred = Predicate<ExprContents>;
 function tokenTypePred(type : string) : ExprPred {
     return new Predicate((p) => (p instanceof Token) && (p.type === type));
 }
-const anyPred : ExprPred = new Predicate((arg)=>true)
+const anyPred : ExprPred = new Predicate((p)=>true)
 function neg(pred : ExprPred) : ExprPred {
     return new Predicate((p) => !pred.pred(p));
 }
@@ -20,7 +20,8 @@ export const opRegex : ExprBNF =
 new BNFRegex( 
     [[ 
       anyPred,
-      tokenTypePred("opr"),
+      tokenTypePred("op"),
       anyPred
     ]]
 )
+export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end')])

@@ -25,5 +25,6 @@ const tokens = lexer.parse(code,0);
 
 let parser = new Parser(bnfRules);
 const ast = parser.parse(tokens.returned, mem);
+
 console.debug(ast);
 // npx tsx main.ts ...

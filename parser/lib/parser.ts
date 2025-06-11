@@ -16,15 +16,12 @@ export class Parser {
             done = true;
             for(let rule of this.BNFRules) {
                 matches = rule.getAllMatches(expr, mem);
-
-                if(matches.length < 1) {
-                    console.debug("skipped");
-                    continue;
-                };
+                if(matches.length < 1) continue;
 
                 done = false;
                 matches.sort((a,b) => a.pref - b.pref);
                 rexpr.splice(matches[0].pos,matches[0].matched_from.length, ...matches[0].matched_to);
+                break;
             }
         } while (!done);
         return rexpr;

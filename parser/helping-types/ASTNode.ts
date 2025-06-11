@@ -1,8 +1,10 @@
 export class ASTNode {
-    children : Array<ASTNode>
+    children : Array<ASTNode>;
     type : string;
-    constructor(children, type) {
+    data : any;
+    constructor(children, type, data) {
         this.children = children;
         this.type = type;
+        this.data = data;
     }
 }
