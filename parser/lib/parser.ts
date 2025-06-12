@@ -19,7 +19,7 @@ export class Parser {
                 if(matches.length < 1) continue;
 
                 done = false;
-                matches.sort((a,b) => a.pref - b.pref);
+                matches.sort((a,b) => b.pref - a.pref);
                 rexpr.splice(matches[0].pos,matches[0].matched_from.length, ...matches[0].matched_to);
                 break;
             }

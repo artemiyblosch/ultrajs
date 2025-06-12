@@ -6,8 +6,8 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         opRegex,
         (match) => ({
-            expr: [new ASTNode([match[0], match[2]],'op',match[1])],
-            pref: mem.get((match[1] as any).data),
+            expr: [new ASTNode([match[0], match[2]],'op',match[1].data[0])],
+            pref: mem.get('_PREFS_').op(match[1].data[0]),
         })
     ),
     new BNFRule(
