@@ -8,6 +8,6 @@ export let tokenrules = [
     new TokenRule(/\{.*\}/y, "block"),
     new TokenRule(/\n+/y, "end"),
     new TokenRule(/\s+/y, "space"),
-    new TokenRule(/\w[\w\d]*/y, "literal"),
+    new TokenRule(/\w[\w\d]*/y, "lit"),
     new TokenRule(/[^\w\d]+/y, "op"),
 ]

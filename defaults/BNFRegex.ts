@@ -24,4 +24,7 @@ new BNFRegex(
       anyPred
     ]]
 )
+
 export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end')])
+
+export const literalRegex : ExprBNF = new BNFRegex([tokenTypePred('lit')])
