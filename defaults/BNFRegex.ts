@@ -30,3 +30,9 @@ export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end')])
 export const literalRegex : ExprBNF = new BNFRegex([tokenTypePred('lit')])
 
 export const brGroupRegex : ExprBNF = new BNFRegex([tokenTypePred('brGroup')])
+
+export const callRegex : ExprBNF = 
+new BNFRegex([[
+    tokenTypePred('lit'),
+    tokenTypePred('brGroup'),
+]])

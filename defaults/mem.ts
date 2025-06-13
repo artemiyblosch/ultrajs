@@ -32,13 +32,9 @@ mem.set('_FUNCS_', {
     }
 })
 mem.set('_EVALRS_', {
-    lit: (children : any[], data : any) => {
-        let [,value] = findClosestEntry(data);
-        value[KeySymbol] = data;
-        return value;
-    },
-    num: (children : any[], data : any) => +data,
-    op: (children : any[], data : any) => mem.get('_FUNCS_').op[data](children),
+    lit: (children : any[], data : string) => parseLit(data),
+    num: (children : any[], data : string) => +data,
+    op: (children : any[], data : string) => mem.get('_FUNCS_').op[data](children),
     brGroup: (children : any[], data : string) => {
         return Eval( new Parser(bnfRules)
         .parse(
@@ -47,8 +43,17 @@ mem.set('_EVALRS_', {
             .returned,
             mem
         ) as ASTNode[])
+    },
+    call: (children : any[], data : string) => {
+
     }
 })
+
+function parseLit(data : string) : any {
+    let [,value] = findClosestEntry(data);
+    value[KeySymbol] = data;
+    return value;
+}
 
 function findClosestEntry(key : string) : [string,any] {
     const entries =  Array.from(mem.entries());
