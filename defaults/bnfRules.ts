@@ -2,7 +2,7 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         literalRegex,
         (match) => ({
-            expr: [new ASTNode([],"lit",match[0].data)],
+            expr: [new ASTNode([],"lit",match[0].data[0])],
             pref: 0,
         })
     ),
