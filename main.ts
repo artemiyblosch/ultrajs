@@ -3,6 +3,8 @@ import { bnfRules } from './defaults/bnfRules.ts';
 import { tokenrules } from './defaults/tokens.ts';
 import { Lexer } from './lexer/lib/lexer.ts'
 import { Parser } from './parser/lib/parser.ts';
+import { Eval } from './eval/lib/eval.ts';
+import { ASTNode } from './parser/helping-types/ASTNode.ts';
 
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -24,7 +26,7 @@ let lexer = new Lexer(tokenrules);
 const tokens = lexer.parse(code,0);
 
 let parser = new Parser(bnfRules);
-const ast = parser.parse(tokens.returned, mem);
+const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
 
-console.debug(ast);
+console.debug(Eval(ast).join(' '));
 // npx tsx main.ts ...

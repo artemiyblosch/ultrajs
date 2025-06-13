@@ -2,14 +2,14 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         literalRegex,
         (match) => ({
-            expr: [new ASTNode([],"atom",match[0].data)],
+            expr: [new ASTNode([],"lit",match[0].data)],
             pref: 0,
         })
     ),
     new BNFRule(
         numberRegex,
         (match) => ({
-            expr: [new ASTNode([],"atom",parseInt(match[0].data))],
+            expr: [new ASTNode([],"num",match[0].data)],
             pref: 0,
         })
     ),
