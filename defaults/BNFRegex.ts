@@ -1,4 +1,5 @@
 import { Token } from "../lexer/classes/token";
+import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRegex, ExprContents, Predicate } from "../parser/helping-types/BNFRegex";
 
 type ExprBNF = BNFRegex<ExprContents>;
@@ -6,6 +7,9 @@ type ExprPred = Predicate<ExprContents>;
 
 function tokenTypePred(type : string) : ExprPred {
     return new Predicate((p) => (p instanceof Token) && (p.type === type));
+}
+function ASTTypePred(type : string) : ExprPred {
+    return new Predicate((p) => (p instanceof ASTNode) && (p.type === type));
 }
 const anyPred : ExprPred = new Predicate((p)=>true)
 function neg(pred : ExprPred) : ExprPred {
@@ -33,6 +37,6 @@ export const brGroupRegex : ExprBNF = new BNFRegex([tokenTypePred('brGroup')])
 
 export const callRegex : ExprBNF = 
 new BNFRegex([[
-    tokenTypePred('lit'),
-    tokenTypePred('brGroup'),
+    ASTTypePred('lit'),
+    ASTTypePred('brGroup'),
 ]])

@@ -16,7 +16,7 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         callRegex,
         (match) => ({
-            expr: [new ASTNode([match[1]],"call", match[0].data[0])],
+            expr: [new ASTNode([match[1]],"call", match[0].data)],
             pref: 0,
         })
     ),
