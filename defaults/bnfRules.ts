@@ -14,6 +14,13 @@ export const bnfRules : BNFRule[] = [
         })
     ),
     new BNFRule(
+        brGroupRegex,
+        (match) => ({
+            expr: [new ASTNode([], 'brGroup', match[0].data[0].slice(1,-1))],
+            pref: 0}
+        )
+    ),
+    new BNFRule(
         opRegex,
         (match) => ({
             expr: [new ASTNode([match[0], match[2]],'op',match[1].data[0])],
@@ -28,5 +35,5 @@ export const bnfRules : BNFRule[] = [
 
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
-import { endRegex, literalRegex, numberRegex, opRegex } from "./BNFRegex";
+import { brGroupRegex, endRegex, literalRegex, numberRegex, opRegex } from "./BNFRegex";
 import { mem } from "./mem";

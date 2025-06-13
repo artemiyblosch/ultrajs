@@ -2,6 +2,10 @@ import { createHash } from "crypto";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { Mem } from "../parser/helping-types/BNFRegex"
 import { bnfRules } from "./bnfRules";
+import { Lexer } from "../lexer/lib/lexer";
+import { tokenrules } from "./tokens";
+import { Parser } from "../parser/lib/parser";
+import { Eval } from "../eval/lib/eval";
 var mem : Mem = new Map();
 const KeySymbol = Symbol("key");
 
@@ -34,6 +38,15 @@ mem.set('_EVALRS_', {
     },
     num: (children : any[], data : any) => +data,
     op: (children : any[], data : any) => mem.get('_FUNCS_').op[data](children),
+    brGroup: (children : any[], data : string) => {
+        return Eval( new Parser(bnfRules)
+        .parse(
+            new Lexer(tokenrules)
+            .parse(data,0)
+            .returned,
+            mem
+        ) as ASTNode[])
+    }
 })
 
 function findClosestEntry(key : string, mem : Mem) {

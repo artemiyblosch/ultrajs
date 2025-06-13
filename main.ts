@@ -28,5 +28,5 @@ const tokens = lexer.parse(code,0);
 let parser = new Parser(bnfRules);
 const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
 
-console.debug(Eval(ast).join(' '));
+console.debug(Eval(ast));
 // npx tsx main.ts ...
