@@ -31,6 +31,12 @@ new BNFRegex(
 
 export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end')])
 
+export const newLineRegex : ExprBNF = new BNFRegex([[
+    new Predicate((p)=>p instanceof ASTNode),
+    tokenTypePred('nline'),
+    new Predicate((p)=>p instanceof ASTNode),
+]])
+
 export const literalRegex : ExprBNF = new BNFRegex([tokenTypePred('lit')])
 
 export const brGroupRegex : ExprBNF = new BNFRegex([tokenTypePred('brGroup')])
