@@ -33,8 +33,8 @@ mem.set('_FUNCS_', {
 })
 mem.set('_EVALRS_', {
     lit: (children : any[], data : string) => parseLit(data),
-    num: (children : any[], data : string) => +data,
-    op: (children : any[], data : string) => {console.debug(data);mem.get('_FUNCS_').op[data](children)},
+    num: (children : any[], data : string) => parseFloat(data),
+    op: (children : any[], data : string) => mem.get('_FUNCS_').op[data](children),
     brGroup: (children : any[], data : string) => {
         return Eval( new Parser(bnfRules)
         .parse(
