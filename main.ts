@@ -5,28 +5,25 @@ import { Lexer } from './lexer/lib/lexer.ts'
 import { Parser } from './parser/lib/parser.ts';
 import { Eval } from './eval/lib/eval.ts';
 import { ASTNode } from './parser/helping-types/ASTNode.ts';
+import { readFileSync } from 'node:fs';
 
 const argv = require('minimist')(process.argv.slice(2));
 
 let code : string = "";
 if (argv?.f) {
-    require('node:fs').
-    readFile(argv.f, 
-             'utf8', 
-             (_, data) => {
-                code = data || "0\n";
-             }
-    );
+    code = readFileSync(argv.f, {encoding: 'utf-8'});
 } else if (argv?.e) code = argv.e;
 else code = "\n"
 
-if (code.at(-1) != "\n") code = code + "\n"
+const lines = code.split('\n');
 
-let lexer = new Lexer(tokenrules);
-const tokens = lexer.parse(code,0);
+for(let line of lines) {
+    let lexer = new Lexer(tokenrules);
+    const tokens = lexer.parse(line,0);
 
-let parser = new Parser(bnfRules);
-const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
+    let parser = new Parser(bnfRules);
+    const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
 
-console.debug(Eval(ast));
+    console.debug(Eval(ast));
+}
 // npx tsx main.ts ...

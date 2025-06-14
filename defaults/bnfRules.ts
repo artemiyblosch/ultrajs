@@ -49,5 +49,6 @@ export const bnfRules : BNFRule[] = [
 
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
-import { brGroupRegex, callRegex, endRegex, literalRegex, newLineRegex, numberRegex, opRegex } from "./BNFRegex";
+import { brGroupRegex, callRegex, endRegex, literalRegex,
+         newLineRegex, numberRegex, opRegex } from "./BNFRegex";
 import { mem } from "./mem";

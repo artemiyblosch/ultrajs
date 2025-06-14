@@ -34,7 +34,7 @@ mem.set('_FUNCS_', {
 mem.set('_EVALRS_', {
     lit: (children : any[], data : string) => parseLit(data),
     num: (children : any[], data : string) => +data,
-    op: (children : any[], data : string) => mem.get('_FUNCS_').op[data](children),
+    op: (children : any[], data : string) => {console.debug(data);mem.get('_FUNCS_').op[data](children)},
     brGroup: (children : any[], data : string) => {
         return Eval( new Parser(bnfRules)
         .parse(
@@ -49,6 +49,9 @@ mem.set('_EVALRS_', {
         return func(...children);
     }
 })
+
+mem.set('_TOKENRULES_', tokenrules)
+mem.set('_BNFRULES_', bnfRules)
 
 function parseLit(data : string) : any {
     let [,value] = findClosestEntry(data);
