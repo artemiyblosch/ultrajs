@@ -29,10 +29,16 @@ export const bnfRules : BNFRule[] = [
     ),
     new BNFRule(
         opRegex,
-        (match) => ({
-            expr: [new ASTNode([match[0], match[2]],'op',match[1].data[0])],
-            pref: mem.get('_PREFS_').op[match[1].data[0]],
-        })
+        (match) => {
+            if(match.length == 3) return {
+                expr: [new ASTNode([match[0], match[2]],'op',match[1].data[0])],
+                pref: mem.get('_PREFS_').op[match[1].data[0]],
+            }
+            return {
+                expr: [new ASTNode([match[0], match[4]],'op',match[2].data[0])],
+                pref: mem.get('_PREFS_').op[match[2].data[0] - 2],
+            }
+        }
     ),
     new BNFRule(
         endRegex,

@@ -23,9 +23,16 @@ export const numberRegex : ExprBNF = new BNFRegex( [tokenTypePred("num")] )
 export const opRegex : ExprBNF =
 new BNFRegex( 
     [[ 
-      anyPred,
+      neg(tokenTypePred('space')),
       tokenTypePred("op"),
-      anyPred
+      neg(tokenTypePred('space'))
+    ],
+    [
+        anyPred,
+        tokenTypePred('space'),
+        tokenTypePred("op"),
+        tokenTypePred('space'),
+        anyPred
     ]]
 )
 
