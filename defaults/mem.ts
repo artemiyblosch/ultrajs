@@ -21,6 +21,7 @@ mem.set('_PREFS_', {
         '*' : [2,false],
         '/' : [2,false],
         '=' : [0,true],
+        '**' : [3,true],
     }
 })
 mem.set('_FUNCS_', {
@@ -33,6 +34,7 @@ mem.set('_FUNCS_', {
             mem.set(children[0].keySym, children[1]);
             return children[1];
         },
+        '**': (children : any[]) => getAll(children).reduce((a,b)=>a**b),
     }
 })
 mem.set('_EVALRS_', {
