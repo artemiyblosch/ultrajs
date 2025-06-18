@@ -20,6 +20,7 @@ function and(pred1 : ExprPred, pred2 : ExprPred) : ExprPred {
 }
 
 export const numberRegex : ExprBNF = new BNFRegex( [tokenTypePred("num")] )
+
 export const opRegex : ExprBNF =
 new BNFRegex( 
     [[ 
@@ -36,7 +37,7 @@ new BNFRegex(
     ]]
 )
 
-export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end')])
+export const endRegex : ExprBNF = new BNFRegex([tokenTypePred('end'),tokenTypePred('nline')])
 
 export const newLineRegex : ExprBNF = new BNFRegex([[
     new Predicate((p)=>p instanceof ASTNode),

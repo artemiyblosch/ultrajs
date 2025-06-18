@@ -4,11 +4,11 @@ export interface Match {
     matched_from : ExprContents[];
     matched_to : ExprContents[];
     pos : number;
-    pref : number;
+    pref : [number, boolean];
 }
 
 export interface PrefExprC {
-    pref : number;
+    pref : [number, boolean];
     expr : ExprContents[];
 }
 

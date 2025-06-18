@@ -17,9 +17,14 @@ export class Parser {
             for(let rule of this.BNFRules) {
                 matches = rule.getAllMatches(expr, mem);
                 if(matches.length < 1) continue;
-
                 done = false;
-                matches.sort((a,b) => b.pref - a.pref);
+
+                matches
+                .sort((a,b) => b.pref[0] - a.pref[0])
+                .filter((a) => a.pref == matches[0].pref);
+
+                matches = matches[0].pref[1] ? matches.reverse() : matches;
+
                 rexpr.splice(matches[0].pos,matches[0].matched_from.length, ...matches[0].matched_to);
                 break;
             }

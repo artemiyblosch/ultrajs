@@ -6,6 +6,7 @@ import { Lexer } from "../lexer/lib/lexer";
 import { tokenrules } from "./tokens";
 import { Parser } from "../parser/lib/parser";
 import { Eval } from "../eval/lib/eval";
+import { Value } from "../value";
 var mem : Mem = new Map();
 const KeySymbol = Symbol("key");
 
@@ -15,20 +16,23 @@ mem.set('sqrt', Math.sqrt)
 mem.set('_RULES_',bnfRules)
 mem.set('_PREFS_', {
     op: {
-        '+' : 1,
-        '-' : 1,
-        '*' : 2,
-        '/' : 2,
-        '=' : 0,
+        '+' : [1,false],
+        '-' : [1,false],
+        '*' : [2,false],
+        '/' : [2,false],
+        '=' : [0,true],
     }
 })
 mem.set('_FUNCS_', {
     op: {
-        '+': (children : any[]) => children.reduce((a,b)=>a+b),
-        '-': (children : any[]) => children.reduce((a,b)=>a-b),
-        '*': (children : any[]) => children.reduce((a,b)=>a*b),
-        '/': (children : any[]) => children.reduce((a,b)=>a/b),
-        '=': (children : any[]) => mem.set(children[0][KeySymbol],children[1])
+        '+': (children : any[]) => getAll(children).reduce((a,b)=>a+b),
+        '-': (children : any[]) => getAll(children).reduce((a,b)=>a-b),
+        '*': (children : any[]) => getAll(children).reduce((a,b)=>a*b),
+        '/': (children : any[]) => getAll(children).reduce((a,b)=>a/b),
+        '=': (children : any[]) => {
+            mem.set(children[0].keySym, children[1]);
+            return children[1];
+        },
     }
 })
 mem.set('_EVALRS_', {
@@ -54,9 +58,7 @@ mem.set('_TOKENRULES_', tokenrules)
 mem.set('_BNFRULES_', bnfRules)
 
 function parseLit(data : string) : any {
-    let [,value] = findClosestEntry(data);
-    value[KeySymbol] = data;
-    return value;
+    return new Value(findClosestEntry(data)[1], data);
 }
 
 function findClosestEntry(key : string) : [string,any] {
@@ -71,6 +73,15 @@ function findClosestEntry(key : string) : [string,any] {
         minD = curD;
     }
     return minEntry;
+}
+
+function get(value : any) {
+    if(value instanceof Value) return value.value;
+    return value;
+}
+
+function getAll(arr : any[]) {
+    return arr.map((a) => get(a));
 }
 
 const levenshteinD = (s, t) => {
