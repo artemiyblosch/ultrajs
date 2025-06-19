@@ -35,7 +35,7 @@ export const bnfRules : BNFRule[] = [
                 pref: mem.get('_PREFS_').op[match[1].data[0]],
             }
             let pref = mem.get('_PREFS_').op[match[2].data[0]];
-            pref = [pref[0] + 2, pref[1]];
+            pref = [pref[0], pref[1]];
             return {
                 expr: [new ASTNode([match[0], match[4]],'op',match[2].data[0])],
                 pref,

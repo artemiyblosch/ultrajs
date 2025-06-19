@@ -47,7 +47,7 @@ mem.set('_EVALRS_', {
             .parse(data,0)
             .returned,
             mem
-        ) as ASTNode[])
+        ) as ASTNode[])[0]
     },
     call: (children : any[], data : string) => {
         const func = parseLit(data);

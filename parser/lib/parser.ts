@@ -19,11 +19,15 @@ export class Parser {
                 if(matches.length < 1) continue;
                 done = false;
 
-                matches
-                .sort((a,b) => b.pref[0] - a.pref[0])
-                .filter((a) => a.pref == matches[0].pref);
-
-                matches = matches[0].pref[1] ? matches.reverse() : matches;
+                matches.sort(
+                    (a,b) => b.pref !== a.pref ?
+                             b.pref[0] - a.pref[0] :
+                             (
+                                a.pref[1] ?
+                                b.pos - a.pos :
+                                a.pos - b.pos
+                             )
+                );
 
                 rexpr.splice(matches[0].pos,matches[0].matched_from.length, ...matches[0].matched_to);
                 break;
