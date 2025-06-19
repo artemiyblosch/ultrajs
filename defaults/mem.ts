@@ -8,7 +8,6 @@ import { Parser } from "../parser/lib/parser";
 import { Eval } from "../eval/lib/eval";
 import { Value } from "../value";
 var mem : Mem = new Map();
-const KeySymbol = Symbol("key");
 
 mem.set('pi', Math.PI)
 mem.set('e', Math.E)
