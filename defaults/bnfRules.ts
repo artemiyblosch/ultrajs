@@ -24,8 +24,8 @@ export const bnfRules : BNFRule[] = [
         brGroupRegex,
         (match) => ({
             expr: [new ASTNode([], 'brGroup', match[0].data[0].slice(1,-1))],
-            pref: [0,false]}
-        )
+            pref: [0,false]
+        })
     ),
     new BNFRule(
         opRegex,
@@ -43,6 +43,13 @@ export const bnfRules : BNFRule[] = [
         }
     ),
     new BNFRule(
+        bindRegex,
+        (match) => ({
+            expr: [new ASTNode((match[0] as any).children.concat(match[2]), 'op', match[0].data)],
+            pref: [0,false]
+        })
+    ),
+    new BNFRule(
         endRegex,
         (match) => ({expr: [], pref: [0,false]})
     ),
@@ -57,6 +64,6 @@ export const bnfRules : BNFRule[] = [
 
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
-import { brGroupRegex, callRegex, endRegex, literalRegex,
+import { bindRegex, brGroupRegex, callRegex, endRegex, literalRegex,
          newLineRegex, numberRegex, opRegex } from "./BNFRegex";
 import { mem } from "./mem";

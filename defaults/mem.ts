@@ -7,20 +7,23 @@ import { tokenrules } from "./tokens";
 import { Parser } from "../parser/lib/parser";
 import { Eval } from "../eval/lib/eval";
 import { Value } from "../value";
+import { Bool } from "./bool";
 var mem : Mem = new Map();
 
 mem.set('pi', Math.PI)
 mem.set('e', Math.E)
 mem.set('sqrt', Math.sqrt)
 mem.set('_RULES_',bnfRules)
+mem.set('maybe', new Bool(2))
 mem.set('_PREFS_', {
     op: {
-        '+' : [1,false],
-        '-' : [1,false],
-        '*' : [2,false],
-        '/' : [2,false],
-        '=' : [0,true],
-        '**' : [3,true],
+        '+': [1,false],
+        '-': [1,false],
+        '*': [2,false],
+        '/': [2,false],
+        '=': [0,true],
+        '**': [3,true],
+        '?': [0,true],
     }
 })
 mem.set('_FUNCS_', {
@@ -34,6 +37,16 @@ mem.set('_FUNCS_', {
             return children[1];
         },
         '**': (children : any[]) => getAll(children).reduce((a,b)=>a**b),
+        '?' : (children : any[]) => {
+            children = getAll(children);
+            let branch = children[0]?.branch ?? +!!children[0];
+
+            children.shift();
+            (children as any).default = children.pop();
+
+            if (!(branch - 1 in children)) return (children as any).default;
+            return children[branch - 1]
+        }
     }
 })
 mem.set('_EVALRS_', {
