@@ -44,10 +44,19 @@ export const bnfRules : BNFRule[] = [
     ),
     new BNFRule(
         bindRegex,
-        (match) => ({
-            expr: [new ASTNode((match[0] as any).children.concat(match[2]), 'op', match[0].data)],
-            pref: [0,false]
-        })
+        (match) => {
+            if(match[1].data === ":") return {
+                expr: [new ASTNode((match[0] as any).children.concat(match[2]), 'op', match[0].data)],
+                pref: [0,false]
+            }
+
+            let tmp = (match[0] as any).children;
+            tmp.default = match[2];
+            return {
+                expr: [new ASTNode(tmp, 'op', match[0].data)],
+                pref: [0,false]
+            }
+        }
     ),
     new BNFRule(
         endRegex,

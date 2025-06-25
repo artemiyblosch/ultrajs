@@ -19,7 +19,7 @@ brExp.exec = function(str : string) : RegExpExecArray | null {
 }
 
 export let tokenrules = [
-    new TokenRule(/\d*\.?\d+/y, "num"),
+    new TokenRule(/\-?\d*\.?\d+/y, "num"),
     new TokenRule(/;+/y, "nline"),
     new TokenRule(brExp, "brGroup"),
     new TokenRule(/\{.*\}/y, "block"),

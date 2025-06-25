@@ -24,6 +24,6 @@ for(let line of lines) {
     let parser = new Parser(bnfRules);
     const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
 
-    console.debug(Eval(ast));
+    console.debug(ast[0]);
 }
 // npx tsx main.ts ...

@@ -24,6 +24,7 @@ mem.set('_PREFS_', {
         '=': [0,true],
         '**': [3,true],
         '?': [0,true],
+        '?*': [0,true],
     }
 })
 mem.set('_FUNCS_', {
@@ -42,10 +43,21 @@ mem.set('_FUNCS_', {
             let branch = children[0]?.branch ?? +!!children[0];
 
             children.shift();
-            (children as any).default = children.pop();
+            (children as any).default ??= children.pop();
 
             if (!(branch - 1 in children)) return (children as any).default;
             return children[branch - 1]
+        },
+        '?*' : (children : any[]) => {
+            console.debug(children)
+            children = getAll(children);
+            let branch = children[0];
+
+            children.shift();
+            if (!("default" in children)) (children as any).default = children.pop();
+
+            if (!(branch in children)) return (children as any).default;
+            return children[branch];
         }
     }
 })
