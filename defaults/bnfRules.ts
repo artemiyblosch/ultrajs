@@ -28,6 +28,39 @@ export const bnfRules : BNFRule[] = [
         })
     ),
     new BNFRule(
+        switchCaseOpRegex,
+        (match) => {
+            let options = new Map();
+            options.set(Eval([match[2] as ASTNode])[0], Eval([match[3] as ASTNode]));
+            return {
+                expr: [new ASTNode([match[0]], 'swC', options)],
+                pref: [0,false]
+            }
+        }
+    ),
+    new BNFRule(
+        switchCaseAddRegex,
+        (match) => {
+            let options = match[0].data;
+            options.set(Eval([match[2] as ASTNode])[0], Eval([match[3] as ASTNode]));
+            return {
+                expr: [new ASTNode((match[0] as ASTNode).children, 'swC', options)],
+                pref: [0,false]
+            }
+        }
+    ),
+    new BNFRule(
+        switchCaseDefaultRegex,
+        (match) => {
+            let options = match[0].data;
+            options.set(defaultSymbol, Eval([match[2] as ASTNode])[0]);
+            return {
+                expr: [new ASTNode((match[0] as ASTNode).children, 'swC', options)],
+                pref: [0,false]
+            }
+        }
+    ),
+    new BNFRule(
         opRegex,
         (match) => {
             if(match.length == 3) return {
@@ -71,8 +104,10 @@ export const bnfRules : BNFRule[] = [
     )
 ]
 
+import { Eval } from "../eval/lib/eval";
+import { defaultSymbol } from "../eval/types/arrayHacks";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
 import { bindRegex, brGroupRegex, callRegex, endRegex, literalRegex,
-         newLineRegex, numberRegex, opRegex } from "./BNFRegex";
+         newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex, } from "./BNFRegex";
 import { mem } from "./mem";

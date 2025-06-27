@@ -64,3 +64,26 @@ new BNFRegex([[
     tokenTypePred('bindC'),
     nonSpaceRegex,
 ]])
+
+export const switchCaseOpRegex : ExprBNF =
+new BNFRegex([[
+    nonSpaceRegex,
+    tokenTypePred('swC'),
+    ASTTypePred('brGroup'),
+    nonSpaceRegex
+]])
+
+export const switchCaseAddRegex : ExprBNF =
+new BNFRegex([[
+    ASTTypePred('swC'),
+    tokenTypePred('bindC'),
+    ASTTypePred('brGroup'),
+    nonSpaceRegex
+]])
+
+export const switchCaseDefaultRegex : ExprBNF =
+new BNFRegex([[
+    ASTTypePred('swC'),
+    tokenTypePred('swD'),
+    nonSpaceRegex
+]])

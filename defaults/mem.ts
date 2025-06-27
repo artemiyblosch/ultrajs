@@ -6,8 +6,9 @@ import { Lexer } from "../lexer/lib/lexer";
 import { tokenrules } from "./tokens";
 import { Parser } from "../parser/lib/parser";
 import { Eval } from "../eval/lib/eval";
-import { Value } from "../value";
-import { Bool } from "./bool";
+import { Value } from "../eval/types/value";
+import { Bool } from "../eval/types/bool";
+import { defaultSymbol } from "../eval/types/arrayHacks";
 var mem : Mem = new Map();
 
 mem.set('pi', Math.PI)
@@ -24,7 +25,6 @@ mem.set('_PREFS_', {
         '=': [0,true],
         '**': [3,true],
         '?': [0,true],
-        '?*': [0,true],
     }
 })
 mem.set('_FUNCS_', {
@@ -43,21 +43,10 @@ mem.set('_FUNCS_', {
             let branch = children[0]?.branch ?? +!!children[0];
 
             children.shift();
-            (children as any).default ??= children.pop();
+           if (!(defaultSymbol in children)) children[defaultSymbol] ??= children.pop();
 
-            if (!(branch - 1 in children)) return (children as any).default;
+            if (!(branch - 1 in children)) return children[defaultSymbol];
             return children[branch - 1]
-        },
-        '?*' : (children : any[]) => {
-            console.debug(children)
-            children = getAll(children);
-            let branch = children[0];
-
-            children.shift();
-            if (!("default" in children)) (children as any).default = children.pop();
-
-            if (!(branch in children)) return (children as any).default;
-            return children[branch];
         }
     }
 })
@@ -77,7 +66,11 @@ mem.set('_EVALRS_', {
     call: (children : any[], data : string) => {
         const func = parseLit(data);
         return func(...children);
-    }
+    },
+    swC: (children : any[], data : any) => {
+        if(!data.has(children[0])) return data.get(defaultSymbol)
+        return data.get(children[0])[0]
+    },
 })
 
 mem.set('_TOKENRULES_', tokenrules)

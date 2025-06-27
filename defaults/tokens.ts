@@ -26,6 +26,8 @@ export let tokenrules = [
     new TokenRule(/\n+/y, "end"),
     new TokenRule(/\s+/y, "space"),
     new TokenRule(/\w[\w\d]*/y, "lit"),
+    new TokenRule(/:!/y, "swD"),
     new TokenRule(/:/y, "bindC"),
+    new TokenRule(/\?\*/y, "swC"),
     new TokenRule(/[^\w\d()\s]+/y, "op"),
 ]
