@@ -9,6 +9,10 @@ function tokenTypePred(type : string) : ExprPred {
     return new Predicate((p) => (p instanceof Token) && (p.type === type));
 }
 
+function litNamePred(name : string) : ExprPred {
+    return new Predicate((p) => (p instanceof Token) && (p.type === 'lit') && (p.data[0] === name))
+}
+
 function ASTTypePred(type : string) : ExprPred {
     return new Predicate((p) => (p instanceof ASTNode) && (p.type === type));
 }
@@ -51,6 +55,7 @@ export const newLineRegex : ExprBNF = new BNFRegex([[
 export const literalRegex : ExprBNF = new BNFRegex([tokenTypePred('lit')])
 
 export const brGroupRegex : ExprBNF = new BNFRegex([tokenTypePred('brGroup')])
+export const blockRegex : ExprBNF = new BNFRegex([tokenTypePred('block')])
 
 export const callRegex : ExprBNF = 
 new BNFRegex([[
@@ -86,4 +91,11 @@ new BNFRegex([[
     ASTTypePred('swC'),
     tokenTypePred('swD'),
     nonSpaceRegex
+]])
+
+export const whileStmtRegex : ExprBNF =
+new BNFRegex([[
+    litNamePred('while'),
+    ASTTypePred('brGroup'),
+    ASTTypePred('block')
 ]])

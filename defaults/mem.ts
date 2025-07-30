@@ -1,4 +1,3 @@
-import { createHash } from "crypto";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { Mem } from "../parser/helping-types/BNFRegex"
 import { bnfRules } from "./bnfRules";
@@ -63,6 +62,17 @@ mem.set('_EVALRS_', {
             mem
         ) as ASTNode[])[0]
     },
+    block: (children : any[], data : string) => {
+        let context : Mem = new Map();
+        context.set('_PREF_C_', mem)
+        return Eval( new Parser(bnfRules)
+        .parse(
+            new Lexer(tokenrules)
+            .parse(data,0)
+            .returned,
+            context
+        ) as ASTNode[])[0]
+    },
     call: (children : any[], data : string) => {
         const func = parseLit(data);
         return func(...children);
@@ -77,21 +87,33 @@ mem.set('_TOKENRULES_', tokenrules)
 mem.set('_BNFRULES_', bnfRules)
 
 function parseLit(data : string) : any {
-    return new Value(findClosestEntry(data)[1], data);
+    return new Value(mem.get(findClosestKey(data)), data);
 }
 
-function findClosestEntry(key : string) : [string,any] {
-    const entries =  Array.from(mem.entries());
-    let minEntry : [string,any] = ['',null]
-    let minD = Infinity;
-    let curD : number;
-    for(let i of entries) {
-        curD = levenshteinD(i[0],key);
-        if(curD >= minD) continue;
-        minEntry = i;
-        minD = curD;
+function unwrap(mem : Mem) : Mem {
+    if (!mem.has('_PREF_C_')) return mem;
+    let pref_c = unwrap(mem.get('_PREF_C_'));
+    mem.delete('_PREF_C_')
+
+    for(let i in pref_c.entries()) {
+        if(mem.has(i)) continue;
+        mem.set(i,pref_c.get(i));
     }
-    return minEntry;
+    return mem;
+}
+
+function findClosestKey(key : string) : string {
+    const entries = Array.from(unwrap(mem).keys()).sort();
+    let l = -1;
+    let r = entries.length;
+    while(r-l > 1) {
+        let mid = Math.round((l + r) / 2);
+
+        if(entries[mid] == key) return key;
+        if(entries[mid] < key) l = mid;
+        else r = mid;
+    }
+    return entries[l];
 }
 
 function get(value : any) {
@@ -102,25 +124,5 @@ function get(value : any) {
 function getAll(arr : any[]) {
     return arr.map((a) => get(a));
 }
-
-const levenshteinD = (s, t) => {
-  if (!s.length) return t.length;
-  if (!t.length) return s.length;
-  const arr : number[][] = [];
-  for (let i = 0; i <= t.length; i++) {
-    arr[i] = [i];
-    for (let j = 1; j <= s.length; j++) {
-      arr[i][j] =
-        i === 0
-          ? j
-          : Math.min(
-              arr[i - 1][j] + 1,
-              arr[i][j - 1] + 1,
-              arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
-            );
-    }
-  }
-  return arr[t.length][s.length];
-};
 
 export {mem}

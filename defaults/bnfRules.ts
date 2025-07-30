@@ -28,6 +28,13 @@ export const bnfRules : BNFRule[] = [
         })
     ),
     new BNFRule(
+        blockRegex,
+        (match) => ({
+            expr: [new ASTNode([], 'block', match[0].data[0].slice(1,-1))],
+            pref: [0,false]
+        })
+    ),
+    new BNFRule(
         switchCaseOpRegex,
         (match) => {
             let options = new Map();
@@ -108,6 +115,6 @@ import { Eval } from "../eval/lib/eval";
 import { defaultSymbol } from "../eval/types/arrayHacks";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
-import { bindRegex, brGroupRegex, callRegex, endRegex, literalRegex,
+import { bindRegex, blockRegex, brGroupRegex, callRegex, endRegex, literalRegex,
          newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex, } from "./BNFRegex";
 import { mem } from "./mem";
