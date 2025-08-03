@@ -14,6 +14,13 @@ export const bnfRules : BNFRule[] = [
         })
     ),
     new BNFRule(
+        whileStmtRegex,
+        (match) => ({
+            expr: [new ASTNode([match[2]],"while",match[1].data)],
+            pref: [0,false]
+        })
+    ),
+    new BNFRule(
         callRegex,
         (match) => ({
             expr: [new ASTNode([match[1]],"call", match[0].data)],
@@ -116,5 +123,6 @@ import { defaultSymbol } from "../eval/types/arrayHacks";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
 import { bindRegex, blockRegex, brGroupRegex, callRegex, endRegex, literalRegex,
-         newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex, } from "./BNFRegex";
+         newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex,
+         whileStmtRegex, } from "./BNFRegex";
 import { mem } from "./mem";

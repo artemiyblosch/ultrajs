@@ -12,6 +12,7 @@ var mem : Mem = new Map();
 
 mem.set('pi', Math.PI)
 mem.set('e', Math.E)
+mem.set('print', console.log)
 mem.set('sqrt', Math.sqrt)
 mem.set('_RULES_',bnfRules)
 mem.set('maybe', new Bool(2))
@@ -59,6 +60,13 @@ mem.set('_EVALRS_', {
                   /10**((data[2]?.length ?? 1)-1)
         }
         return parseFloat(data[1]+data[2])+rec;
+    },
+    while: (children : any[], data : any) => {
+        let res : any = null;
+        while(Eval(data)) {
+            res = Eval(children);
+        }
+        return res;
     },
     op: (children : any[], data : string) => mem.get('_FUNCS_').op[data](children),
     brGroup: (children : any[], data : string) => {
