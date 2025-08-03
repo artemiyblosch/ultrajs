@@ -9,7 +9,7 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         numberRegex,
         (match) => ({
-            expr: [new ASTNode([],"num",match[0].data[0])],
+            expr: [new ASTNode([],"num",match[0].data)],
             pref: [0,false],
         })
     ),
