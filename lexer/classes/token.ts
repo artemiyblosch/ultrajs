@@ -19,7 +19,7 @@ class TokenRule {
 
     matchAt(pos : number, code : string) : Token | null {
         this.rule.lastIndex = pos;
-        let match : RegExpExecArray | null = this.rule.exec(code);
+        const match : RegExpExecArray | null = this.rule.exec(code);
         this.rule.lastIndex = 0;
 
         if (!match) return null;

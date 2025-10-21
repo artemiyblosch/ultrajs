@@ -14,11 +14,11 @@ export class Lexer {
 
     parse(code : string, posit : number) : TokenedCode {
         let pos : number = posit || 0;
-        let ret : Array<Token> = [];
+        const ret : Array<Token> = [];
         let match : Token | null;
 
         main: while (pos < code.length) {
-            for(let rule of this.tokenRules) {
+            for(const rule of this.tokenRules) {
                 match = rule.matchAt(pos,code);
                 if (!match) continue;
 

@@ -17,11 +17,11 @@ else code = "\n"
 
 const lines = code.split('\n');
 
-for(let line of lines) {
-    let lexer = new Lexer(tokenrules);
+for(const line of lines) {
+    const lexer = new Lexer(tokenrules);
     const tokens = lexer.parse(line,0);
 
-    let parser = new Parser(bnfRules);
+    const parser = new Parser(bnfRules);
     const ast = (parser.parse(tokens.returned, mem) as ASTNode[]);
 
     console.debug(Eval(ast));

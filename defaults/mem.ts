@@ -8,7 +8,7 @@ import { Eval } from "../eval/lib/eval";
 import { Value } from "../eval/types/value";
 import { Bool } from "../eval/types/bool";
 import { defaultSymbol } from "../eval/types/arrayHacks";
-var mem : Mem = new Map();
+var mem : Mem = new Map();/* eslint no-var: "off" */
 
 mem.set('pi', Math.PI)
 mem.set('e', Math.E)
@@ -40,11 +40,13 @@ mem.set('_FUNCS_', {
         '**': (children : any[]) => getAll(children).reduce((a,b)=>a**b),
         '?' : (children : any[]) => {
             children = getAll(children);
-            let branch = children[0]?.branch ?? +!!children[0];
+            const branch = children[0]?.branch ?? +!!children[0];
 
             children.shift();
-           if (!(defaultSymbol in children)) children[defaultSymbol] ??= children.pop();
 
+            // @ts-expect-error '''
+           if (!(defaultSymbol in children)) children[defaultSymbol] ??= children.pop();
+            // @ts-expect-error '''
             if (!(branch - 1 in children)) return children[defaultSymbol];
             return children[branch - 1]
         }
@@ -79,7 +81,7 @@ mem.set('_EVALRS_', {
         ) as ASTNode[])[0]
     },
     block: (children : any[], data : string) => {
-        let context : Mem = new Map();
+        const context : Mem = new Map();
         context.set('_PREF_C_', mem)
         return Eval( new Parser(bnfRules)
         .parse(
@@ -91,7 +93,8 @@ mem.set('_EVALRS_', {
     },
     call: (children : any[], data : string) => {
         const func = parseLit(data);
-        return func(...children);
+
+        return func.value(...children);
     },
     swC: (children : any[], data : any) => {
         if(!data.has(children[0])) return data.get(defaultSymbol)
@@ -102,16 +105,16 @@ mem.set('_EVALRS_', {
 mem.set('_TOKENRULES_', tokenrules)
 mem.set('_BNFRULES_', bnfRules)
 
-function parseLit(data : string) : any {
+function parseLit(data : string) : Value {
     return new Value(mem.get(findClosestKey(data)), data);
 }
 
 function unwrap(mem : Mem) : Mem {
     if (!mem.has('_PREF_C_')) return mem;
-    let pref_c = unwrap(mem.get('_PREF_C_'));
+    const pref_c = unwrap(mem.get('_PREF_C_'));
     mem.delete('_PREF_C_')
 
-    for(let i in pref_c.entries()) {
+   for(const i in pref_c.entries()) {
         if(mem.has(i)) continue;
         mem.set(i,pref_c.get(i));
     }
@@ -123,7 +126,7 @@ function findClosestKey(key : string) : string {
     let l = -1;
     let r = entries.length;
     while(r-l > 1) {
-        let mid = Math.round((l + r) / 2);
+        const mid = Math.round((l + r) / 2);
 
         if(entries[mid] == key) return key;
         if(entries[mid] < key) l = mid;

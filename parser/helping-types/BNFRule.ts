@@ -26,7 +26,7 @@ export class BNFRule {
 
     getAllMatches(expr : ExprContents[], mem : Mem) : Match[] {
         let match : null | ExprContents[] = null;
-        let matches : Match[] = [];
+        const matches : Match[] = [];
         let c : PrefExprC;
 
         for(let i : number = 0; i < expr.length; i++) {

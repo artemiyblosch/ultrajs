@@ -16,7 +16,7 @@ export class BNFRegex<T> {
 
     match(arr : T[], pos : number, mem : Mem) : null | Array<T> {
         let match : null | T[] = null;
-        for(let i of this.alternatives) {
+        for(const i of this.alternatives) {
             if(i instanceof Array) {
                 match = BNFRegex.matchSeq(i, arr, pos, mem);
             } else {
@@ -32,7 +32,7 @@ export class BNFRegex<T> {
         let match : T[] = [];
         let matchlet : null | T[] = null;
 
-        for(let i of seq) {
+        for(const i of seq) {
             matchlet = i.match(arr,pos,mem);
             switch (matchlet) {
                 case null: return null;
@@ -51,7 +51,7 @@ export class Predicate<T> {
         this.pred = pred;
     }
 
-    match(arr : Array<T>, pos : number, mem : Mem) : null | Array<T> {
+    match(arr : Array<T>, pos : number) : null | Array<T> {
         if(this.pred(arr[pos])) return [arr[pos]];
         return null;
     }

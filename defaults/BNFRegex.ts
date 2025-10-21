@@ -21,9 +21,9 @@ function neg(pred : ExprPred) : ExprPred {
     return new Predicate((p) => !pred.pred(p));
 }
 
-function and(pred1 : ExprPred, pred2 : ExprPred) : ExprPred {
+/*function and(pred1 : ExprPred, pred2 : ExprPred) : ExprPred {
     return new Predicate((p) => pred1.pred(p) && pred2.pred(p));
-}
+}*/
 const nonSpaceRegex = neg(tokenTypePred('space'));
 
 export const numberRegex : ExprBNF = new BNFRegex( [tokenTypePred("num")] )

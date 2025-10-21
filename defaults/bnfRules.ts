@@ -44,8 +44,9 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         switchCaseOpRegex,
         (match) => {
-            let options = new Map();
+            const options = new Map();
             options.set(Eval([match[2] as ASTNode])[0], Eval([match[3] as ASTNode]));
+            
             return {
                 expr: [new ASTNode([match[0]], 'swC', options)],
                 pref: [0,false]
@@ -55,8 +56,9 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         switchCaseAddRegex,
         (match) => {
-            let options = match[0].data;
+            const options = match[0].data;
             options.set(Eval([match[2] as ASTNode])[0], Eval([match[3] as ASTNode]));
+            
             return {
                 expr: [new ASTNode((match[0] as ASTNode).children, 'swC', options)],
                 pref: [0,false]
@@ -66,7 +68,7 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         switchCaseDefaultRegex,
         (match) => {
-            let options = match[0].data;
+            const options = match[0].data;
             options.set(defaultSymbol, Eval([match[2] as ASTNode])[0]);
             return {
                 expr: [new ASTNode((match[0] as ASTNode).children, 'swC', options)],
@@ -97,7 +99,7 @@ export const bnfRules : BNFRule[] = [
                 pref: [0,false]
             }
 
-            let tmp = (match[0] as any).children;
+            const tmp = (match[0] as any).children;
             tmp.default = match[2];
             return {
                 expr: [new ASTNode(tmp, 'op', match[0].data)],
@@ -107,7 +109,7 @@ export const bnfRules : BNFRule[] = [
     ),
     new BNFRule(
         endRegex,
-        (match) => ({expr: [], pref: [0,false]})
+        () => ({expr: [], pref: [0,false]})
     ),
     new BNFRule(
         newLineRegex,
