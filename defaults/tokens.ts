@@ -28,7 +28,7 @@ export let tokenrules = [
     new TokenRule(/;+/y, "nline"),
     new TokenRule(brExp, "brGroup"),
     new TokenRule(blockExp, "block"),
-    new TokenRule(/\-?\d*\.?\d+/y, "num"),
+    new TokenRule(/(\-?\d+)(\.\d+)?(r\d+)?/y, "num"),
     new TokenRule(/\n+/y, "end"),
     new TokenRule(/\s+/y, "space"),
     new TokenRule(/\w[\w\d]*/y, "lit"),

@@ -9,8 +9,15 @@ export const bnfRules : BNFRule[] = [
     new BNFRule(
         numberRegex,
         (match) => ({
-            expr: [new ASTNode([],"num",match[0].data[0])],
+            expr: [new ASTNode([],"num",match[0].data)],
             pref: [0,false],
+        })
+    ),
+    new BNFRule(
+        whileStmtRegex,
+        (match) => ({
+            expr: [new ASTNode([match[2]],"while",match[1].data)],
+            pref: [0,false]
         })
     ),
     new BNFRule(
@@ -116,5 +123,6 @@ import { defaultSymbol } from "../eval/types/arrayHacks";
 import { ASTNode } from "../parser/helping-types/ASTNode";
 import { BNFRule } from "../parser/helping-types/BNFRule";
 import { bindRegex, blockRegex, brGroupRegex, callRegex, endRegex, literalRegex,
-         newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex, } from "./BNFRegex";
+         newLineRegex, numberRegex, opRegex, switchCaseAddRegex, switchCaseDefaultRegex, switchCaseOpRegex,
+         whileStmtRegex, } from "./BNFRegex";
 import { mem } from "./mem";
